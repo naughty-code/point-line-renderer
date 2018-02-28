@@ -16,10 +16,7 @@ int main(int argc, char** argv) {
 	int height = 1000;
 	int centerX = width / 2;
 	int centerY = height / 2;
-	TGAImage image(width, height, TGAImage::RGB);
-	//image.set(52, 41, red);
-	//image.flip_vertically(); // i want to have the origin at the left bottom corner of the image
-	//image.write_tga_file("output.tga");
+	TGAImage image(width, height, TGAImage::RGB); //initializing image to write
 	// extracted OFF models from files
 	OFFmodel offCochino("cochino.off");
 	OFFmodel offCamello("camello.off");
@@ -48,7 +45,7 @@ int main(int argc, char** argv) {
 	//Camera transforms
 	//Matrix().rotateAlter(Vector4(1, 1, 1), 45) * Matrix().translate(0,0,0.5)
 	//
-	Model camSpace = world * (Matrix().lookAt(Vector4(0, 1, 0), Vector4()));
+	Model camSpace = world * (Matrix().lookAt(Vector4(1, 0, 0), Vector4()));
 
 	Model screenSpace = camSpace * (Matrix().scale(1, -1, 1));
 
