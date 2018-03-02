@@ -109,13 +109,11 @@ Matrix Matrix::rotateAlter(Vector4 n, float angle) { //works but models start to
 Matrix Matrix::lookAt(Vector4 camPosition, Vector4 lookPosition) { //not working yet
 	Vector4 lookDirection = lookPosition - camPosition;
 	float pitchAngle, headAngle;
-	pitchAngle = radToDeg(lookDirection.z != 0 && lookDirection.y != 0 ? (lookDirection.y / hypotf(lookDirection.y, lookDirection.z)) : 0 );
+	pitchAngle = radToDeg(lookDirection.z == 0 && lookDirection.y == 0 ?  0 : asinf(lookDirection.y / lookDirection.magnitude()));
 	headAngle = radToDeg(atan2f(lookDirection.x, lookDirection.z));
-	Matrix cameraToUprightSpace = Matrix().pitch(pitchAngle) * Matrix().head(-headAngle);
-	Vector4 camUprightPosition = camPosition * cameraToUprightSpace;
-	std::cout << "pitch: " << pitchAngle << "\n";
-	std::cout << "head: " << headAngle << "\n";
-	return cameraToUprightSpace * Matrix().translate(-camUprightPosition.x, -camUprightPosition.y, -camUprightPosition.z);
+	//std::cout << "pitch: " << pitchAngle << "\n";
+	//std::cout << "head: " << headAngle << "\n";
+	return Matrix().translate(-camPosition.x, -camPosition.y, -camPosition.z)  * Matrix().head(-headAngle) * Matrix().pitch(pitchAngle);
 }
 
 Matrix Matrix::operator*(Matrix rhs) {
